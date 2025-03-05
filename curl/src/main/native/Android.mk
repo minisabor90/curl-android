@@ -89,26 +89,59 @@ include $(BUILD_STATIC_LIBRARY)
 
 
 include $(CLEAR_VARS)
-include $(LOCAL_PATH)/brotli/common/sources.mk
-include $(LOCAL_PATH)/brotli/dec/sources.mk
-include $(LOCAL_PATH)/brotli/enc/sources.mk
 LOCAL_MODULE            := brotli_static
-LOCAL_SRC_FILES         := $(addprefix brotli/common/,$(BROTLI_COMMON_C_SOURCES))
-LOCAL_SRC_FILES         += $(addprefix brotli/dec/,$(BROTLI_DEC_C_SOURCES))
-LOCAL_SRC_FILES         += $(addprefix brotli/enc/,$(BROTLI_ENC_C_SOURCES))
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/brotli/include
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/brotli/include
+LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/brotli/c/common/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/brotli/c/dec/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/brotli/c/enc/*.c)
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/brotli/c/include
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/brotli/c/include
 LOCAL_CFLAGS            := -DBROTLI_BUILD_PORTABLE
 include $(BUILD_STATIC_LIBRARY)
 
 
+# Zstandard module definition
 include $(CLEAR_VARS)
-LOCAL_MODULE            := zsd_static
-LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/zsd/src/*.c)
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/zsd/include
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/zsd/include
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_MODULE            := zstd_static
+LOCAL_SRC_FILES         := \
+    lib/common/bitstream.c \
+    lib/common/entropy_common.c \
+    lib/common/error_private.c \
+    lib/common/fse_decompress.c \
+    lib/common/pool.c \
+    lib/common/threading.c \
+    lib/common/xxhash.c \
+    lib/common/zstd_common.c \
+    lib/compress/fse_compress.c \
+    lib/compress/hist.c \
+    lib/compress/huf_compress.c \
+    lib/compress/zstd_compress.c \
+    lib/compress/zstd_compress_literals.c \
+    lib/compress/zstd_compress_sequences.c \
+    lib/compress/zstd_double_fast.c \
+    lib/compress/zstd_fast.c \
+    lib/compress/zstd_lazy.c \
+    lib/compress/zstd_ldm.c \
+    lib/compress/zstd_opt.c \
+    lib/decompress/huf_decompress.c \
+    lib/decompress/zstd_ddict.c \
+    lib/decompress/zstd_decompress.c \
+    lib/decompress/zstd_decompress_block.c \
+    lib/dictBuilder/cover.c \
+    lib/dictBuilder/divsufsort.c \
+    lib/dictBuilder/fastcover.c \
+    lib/dictBuilder/zdict.c \
+    lib/legacy/zstd_v01.c \
+    lib/legacy/zstd_v02.c \
+    lib/legacy/zstd_v03.c \
+    lib/legacy/zstd_v04.c \
+    lib/legacy/zstd_v05.c \
+    lib/legacy/zstd_v06.c \
+    lib/legacy/zstd_v07.c
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/lib
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/lib
+LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_
 include $(BUILD_STATIC_LIBRARY)
+
 
 
 $(call import-module,prefab/boringssl)
