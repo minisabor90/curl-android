@@ -1,32 +1,33 @@
 plugins {
-    id("com.android.library")
-    id("maven-publish")
-    id("signing")
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'signing'
 }
 
-def enableLTO = providers.gradleProperty("enableLTO")
+def enableLTO = providers.gradleProperty('enableLTO')
 
 android {
     compileSdk = 35
-    buildToolsVersion = "35.0.1"
-    ndkVersion = "28.0.13004108"
-    namespace = "io.github.vvb2060.ndk.curl"
+    buildToolsVersion = '35.0.1'
+    ndkVersion = '28.0.13004108'
+    namespace = 'io.github.vvb2060.ndk.curl'
+
     defaultConfig {
         minSdk = 21
         targetSdk = 35
         externalNativeBuild {
             ndkBuild {
-                targets += [ "curl_static", "nghttp2_static", "nghttp3_static", "ngtcp2_crypto_static", "ngtcp2_static" ]
-                arguments += [ "-j${Runtime.runtime.availableProcessors()}" ]
-                if (enableLTO.present) arguments += [ "enableLTO=1" ]
-                abiFilters += [ "x86", "x86_64", "armeabi-v7a", "arm64-v8a", "riscv64" ]
+                targets 'curl_static', 'nghttp2_static', 'nghttp3_static', 'ngtcp2_crypto_static', 'ngtcp2_static'
+                arguments "-j${Runtime.runtime.availableProcessors()}"
+                if (enableLTO.present) arguments += 'enableLTO=1'
+                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a', 'riscv64'
             }
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -36,29 +37,21 @@ android {
     }
 
     externalNativeBuild {
-        ndkBuild.path = "src/main/native/Android.mk"
+        ndkBuild {
+            path 'src/main/native/Android.mk'
+        }
     }
 
     prefab {
-        curl_static {
-            headers = "src/main/native/curl/include"
-        }
-        nghttp2_static {
-            headers = "src/main/native/nghttp2/lib/includes"
-        }
-        ngtcp2_static {
-            headers = "src/main/native/ngtcp2/lib/includes"
-        }
-        ngtcp2_crypto_static {
-            headers = "src/main/native/ngtcp2/crypto/includes"
-        }
-        nghttp3_static {
-            headers = "src/main/native/nghttp3/lib/includes"
-        }
+        curl_static { headers 'src/main/native/curl/include' }
+        nghttp2_static { headers 'src/main/native/nghttp2/lib/includes' }
+        ngtcp2_static { headers 'src/main/native/ngtcp2/lib/includes' }
+        ngtcp2_crypto_static { headers 'src/main/native/ngtcp2/crypto/includes' }
+        nghttp3_static { headers 'src/main/native/nghttp3/lib/includes' }
     }
 
     publishing {
-        singleVariant("release") {
+        singleVariant('release') {
             withSourcesJar()
             withJavadocJar()
         }
@@ -66,67 +59,62 @@ android {
 }
 
 dependencies {
-    if (enableLTO.present) {
-        api("io.github.vvb2060.ndk:boringssl:20250114-lto-ndk28")
-    } else {
-        api("io.github.vvb2060.ndk:boringssl:20250114")
-    }
+    api enableLTO.present ?
+        'io.github.vvb2060.ndk:boringssl:20250114-lto-ndk28' :
+        'io.github.vvb2060.ndk:boringssl:20250114'
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            group = "io.github.vvb2060.ndk"
-            artifactId = "curl"
-            if (enableLTO.present) {
-                version = "8.12.1-lto-ndk28"
-            } else {
-                version = "8.12.1"
-            }
+        release(MavenPublication) {
+            groupId = 'io.github.vvb2060.ndk'
+            artifactId = 'curl'
+            version = enableLTO.present ? '8.12.1-lto-ndk28' : '8.12.1'
+
             afterEvaluate {
-                from(components.release)
+                from components.release
             }
+
             pom {
-                name = "curl"
-                description = "curl static library prefab for android."
+                name = 'curl'
+                description = 'cURL static library Prefab for Android'
                 url = 'https://github.com/vvb2060/curl-android'
                 licenses {
                     license {
-                        name = "curl license"
+                        name = 'cURL License'
                         url = 'https://curl.se/docs/copyright.html'
                     }
                 }
                 developers {
                     developer {
-                        name = "vvb2060"
-                        url = "https://github.com/vvb2060"
+                        id = 'vvb2060'
+                        name = 'vvb2060'
+                        url = 'https://github.com/vvb2060'
                     }
                 }
                 scm {
-                    connection = "scm:git:https://github.com/vvb2060/curl-android.git"
-                    url = "https://github.com/vvb2060/curl-android"
+                    connection = 'scm:git:git://github.com/vvb2060/curl-android.git'
+                    developerConnection = 'scm:git:ssh://github.com/vvb2060/curl-android.git'
+                    url = 'https://github.com/vvb2060/curl-android'
                 }
             }
         }
     }
+
     repositories {
         maven {
-            name = "ossrh"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials(PasswordCredentials)
+            name = 'sonatype'
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = System.getenv('SONATYPE_USERNAME')
+                password = System.getenv('SONATYPE_PASSWORD')
+            }
         }
     }
 }
 
 signing {
-    def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    def secretKeyRingFile = findProperty("signing.secretKeyRingFile")
-
-    if (secretKeyRingFile != null && file(secretKeyRingFile).exists()) {
-        sign(publishing.publications)
-    } else if (signingKey != null) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(publishing.publications)
-    }
+    // Use GPG command-line tool for signing in CI (GitHub Actions)
+    useGpgCmd()
+    sign publishing.publications.release
 }
