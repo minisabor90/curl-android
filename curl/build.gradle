@@ -86,9 +86,9 @@ publishing {
             group = "io.github.vvb2060.ndk"
             artifactId = "curl"
             if (enableLTO.present) {
-                version = "8.12.0-lto-ndk28"
+                version = "8.12.1-lto-ndk28"
             } else {
-                version = "8.12.0"
+                version = "8.12.1"
             }
             afterEvaluate {
                 from(components.release)
