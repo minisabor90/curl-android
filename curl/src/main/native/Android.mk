@@ -1,5 +1,8 @@
 LOCAL_PATH:= $(call my-dir)
 
+# At the top of your Android.mk file, add:
+OPTIMIZATION_FLAGS := -O3
+
 include $(CLEAR_VARS)
 include $(LOCAL_PATH)/curl/src/Makefile.inc
 LOCAL_MODULE            := curl
@@ -18,7 +21,7 @@ else ifeq ($(TARGET_ARCH_ABI),x86_64)
 else ifeq ($(TARGET_ARCH_ABI),riscv64)
     LOCAL_C_INCLUDES    += $(LOCAL_PATH)/config64
 endif
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
 LOCAL_STATIC_LIBRARIES  := curl_static
 include $(LOCAL_PATH)/build-executable.mk
 
@@ -40,7 +43,7 @@ else ifeq ($(TARGET_ARCH_ABI),riscv64)
 endif
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/curl/include
 LOCAL_EXPORT_LDLIBS     := -lz
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL $(OPTIMIZATION_FLAGS)
 LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zstd_static
 include $(BUILD_STATIC_LIBRARY)
 
@@ -51,7 +54,7 @@ LOCAL_SRC_FILES         := $(addprefix nghttp2/lib/,$(OBJECTS))
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/nghttp2/lib/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/nghttp2/lib/includes
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -61,7 +64,7 @@ LOCAL_SRC_FILES         := $(addprefix ngtcp2/lib/,$(OBJECTS))
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/ngtcp2/lib/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/ngtcp2/lib/includes
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
 LOCAL_STATIC_LIBRARIES  := ngtcp2_crypto_static
 include $(BUILD_STATIC_LIBRARY)
 
@@ -73,7 +76,7 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)/ngtcp2/lib $(LOCAL_PATH)/ngtcp2/lib/inc
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/ngtcp2/crypto $(LOCAL_PATH)/ngtcp2/crypto/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/ngtcp2/crypto/includes
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
 LOCAL_STATIC_LIBRARIES  := ssl_static
 include $(BUILD_STATIC_LIBRARY)
 
@@ -84,7 +87,7 @@ LOCAL_SRC_FILES         := $(addprefix nghttp3/lib/,$(OBJECTS))
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/nghttp3/lib/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/nghttp3/lib/includes
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -95,7 +98,7 @@ LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/brotli/c/dec/*.c)
 LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/brotli/c/enc/*.c)
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/brotli/c/include
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/brotli/c/include
-LOCAL_CFLAGS            := -DBROTLI_BUILD_PORTABLE
+LOCAL_CFLAGS            := -DBROTLI_BUILD_PORTABLE  $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -109,7 +112,7 @@ LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/dictBuilder/*.c)
 LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/legacy/*.c)
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/zstd/lib
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/zstd/lib
-LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_ -DZSTD_DISABLE_ASM
+LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_ -DZSTD_DISABLE_ASM  $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
 
