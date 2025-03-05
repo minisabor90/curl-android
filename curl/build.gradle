@@ -16,7 +16,7 @@ android {
         targetSdk = 35
         externalNativeBuild {
             ndkBuild {
-                targets += [ "curl_static", "nghttp2_static", "nghttp3_static", "ngtcp2_crypto_static", "ngtcp2_static" ]
+                targets += [ "curl_static", "nghttp2_static", "nghttp3_static", "ngtcp2_crypto_static", "ngtcp2_static","zstd_static","brotli_static" ]
                 arguments += [ "-j${Runtime.runtime.availableProcessors()}" ]
                 if (enableLTO.present) arguments += [ "enableLTO=1" ]
                 abiFilters += [ "x86" ]
@@ -54,6 +54,13 @@ android {
         }
         nghttp3_static {
             headers = "src/main/native/nghttp3/lib/includes"
+        }
+          zstd_static {
+            headers = "src/main/native/nghttp3/zstd/lib"
+        }
+        
+            brotli_static {
+            headers = "src/main/native/brotli/c/include"
         }
     }
 
