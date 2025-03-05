@@ -40,7 +40,7 @@ else ifeq ($(TARGET_ARCH_ABI),riscv64)
 endif
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/curl/include
 LOCAL_EXPORT_LDLIBS     := -lz
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL -DUSE_BROTLI -DUSE_ZSTD
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL
 LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zstd_static
 include $(BUILD_STATIC_LIBRARY)
 
@@ -99,48 +99,19 @@ LOCAL_CFLAGS            := -DBROTLI_BUILD_PORTABLE
 include $(BUILD_STATIC_LIBRARY)
 
 
-# Zstandard module definition
+# Zstandard module definition - simplified with wildcards
 include $(CLEAR_VARS)
 LOCAL_MODULE            := zstd_static
-LOCAL_SRC_FILES         := \
-    lib/common/bitstream.c \
-    lib/common/entropy_common.c \
-    lib/common/error_private.c \
-    lib/common/fse_decompress.c \
-    lib/common/pool.c \
-    lib/common/threading.c \
-    lib/common/xxhash.c \
-    lib/common/zstd_common.c \
-    lib/compress/fse_compress.c \
-    lib/compress/hist.c \
-    lib/compress/huf_compress.c \
-    lib/compress/zstd_compress.c \
-    lib/compress/zstd_compress_literals.c \
-    lib/compress/zstd_compress_sequences.c \
-    lib/compress/zstd_double_fast.c \
-    lib/compress/zstd_fast.c \
-    lib/compress/zstd_lazy.c \
-    lib/compress/zstd_ldm.c \
-    lib/compress/zstd_opt.c \
-    lib/decompress/huf_decompress.c \
-    lib/decompress/zstd_ddict.c \
-    lib/decompress/zstd_decompress.c \
-    lib/decompress/zstd_decompress_block.c \
-    lib/dictBuilder/cover.c \
-    lib/dictBuilder/divsufsort.c \
-    lib/dictBuilder/fastcover.c \
-    lib/dictBuilder/zdict.c \
-    lib/legacy/zstd_v01.c \
-    lib/legacy/zstd_v02.c \
-    lib/legacy/zstd_v03.c \
-    lib/legacy/zstd_v04.c \
-    lib/legacy/zstd_v05.c \
-    lib/legacy/zstd_v06.c \
-    lib/legacy/zstd_v07.c
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/lib
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/lib
+LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/zstd/lib/common/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/compress/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/decompress/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/dictBuilder/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/legacy/*.c)
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/zstd/lib
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/zstd/lib
 LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_
 include $(BUILD_STATIC_LIBRARY)
+
 
 
 
