@@ -388,7 +388,7 @@
 /* #undef HAVE_LDAP_URL_PARSE */
 
 /* Define to 1 if you have the `brotlidec' library (-lbrotlidec). */
-#define HAVE_LIBBROTLIDEC 1
+/*  #define HAVE_LIBBROTLIDEC 1  */
 
 /* Define to 1 if you have the <libgen.h> header file. */
 #define HAVE_LIBGEN_H 1
@@ -745,7 +745,7 @@
 #define HAVE_ZSTD 1
 
 /* Define to 1 if you have the <zstd.h> header file. */
-/* #undef HAVE_ZSTD_H */
+#define HAVE_ZSTD_H 1
 
 /* Define to 1 if you have the `_setmode' function. */
 /* #undef HAVE__SETMODE */
