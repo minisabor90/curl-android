@@ -745,7 +745,7 @@
 #define HAVE_ZSTD 1
 
 /* Define to 1 if you have the <zstd.h> header file. */
-#define HAVE_ZSTD_H 1f
+#define HAVE_ZSTD_H 1
 
 /* Define to 1 if you have the `_setmode' function. */
 /* #undef HAVE__SETMODE */
