@@ -28,6 +28,26 @@ jobs:
           cp curl/src/main/native/config/versions/nghttp3ver.h curl/src/main/native/nghttp3/lib/includes/nghttp3/version.h
           cp curl/src/main/native/config/versions/ngtcp2ver.h curl/src/main/native/ngtcp2/lib/includes/ngtcp2/version.h
           echo "#include \"tool_hugehelp.h\"" > curl/src/main/native/curl/src/tool_hugehelp.c
+      
+      # Add this step to ensure Brotli is properly set up
+      - name: Setup Brotli
+        shell: bash
+        run: |
+          # Check if Brotli is available as a submodule
+          if [ -d "curl/src/main/native/brotli" ]; then
+            echo "Brotli submodule found"
+          else
+            echo "Brotli submodule not found, cloning it"
+            git clone https://github.com/google/brotli.git curl/src/main/native/brotli
+          fi
+          
+          # Ensure Android.mk includes Brotli paths
+          # This is a simple check - you might need to modify the actual Android.mk file
+          if ! grep -q "brotli/c/include" curl/src/main/native/Android.mk; then
+            echo "Warning: Android.mk might not include Brotli paths correctly"
+            echo "Please review Android.mk and ensure it includes LOCAL_C_INCLUDES for Brotli"
+          fi
+          
       - name: Configuration Environment
         shell: bash
         run: |
