@@ -10,3 +10,9 @@
 [submodule "curl/src/main/native/nghttp3"]
 	path = curl/src/main/native/nghttp3
 	url = https://github.com/ngtcp2/nghttp3.git
+[submodule "curl/src/main/native/brotli"]
+	path = curl/src/main/native/brotli
+	url = https://github.com/google/brotli.git
+[submodule "curl/src/main/native/zstd"]
+	path = curl/src/main/native/zstd
+	url = https://github.com/facebook/zstd.git
