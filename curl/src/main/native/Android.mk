@@ -6,7 +6,7 @@ LOCAL_MODULE            := curl
 LOCAL_SRC_FILES         := $(addprefix curl/src/,$(CURL_CFILES))
 LOCAL_SRC_FILES         += $(addprefix curl/src/,$(CURLX_CFILES))
 LOCAL_SRC_FILES         += $(LOCAL_PATH)/tinynew.cpp
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/curl/lib $(LOCAL_PATH)/brotli/c/include
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/curl/lib $(LOCAL_PATH)/brotli/c/include 
 ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
     LOCAL_C_INCLUDES    += $(LOCAL_PATH)/config32
 else ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
@@ -40,8 +40,8 @@ else ifeq ($(TARGET_ARCH_ABI),riscv64)
 endif
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/curl/include
 LOCAL_EXPORT_LDLIBS     := -lz
-LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL -DUSE_BROTLI -DUSE_ZSD
-LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zsd_static
+LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL -DUSE_BROTLI -DUSE_ZSTD
+LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zstd_static
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
