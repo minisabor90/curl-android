@@ -7,6 +7,7 @@ LOCAL_SRC_FILES         := $(addprefix curl/src/,$(CURL_CFILES))
 LOCAL_SRC_FILES         += $(addprefix curl/src/,$(CURLX_CFILES))
 LOCAL_SRC_FILES         += $(LOCAL_PATH)/tinynew.cpp
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/curl/lib
+LOCAL_C_INCLUDES        += $(LOCAL_PATH)/brotli/include
 ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
     LOCAL_C_INCLUDES    += $(LOCAL_PATH)/config32
 else ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
