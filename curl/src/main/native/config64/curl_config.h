@@ -194,7 +194,7 @@
 #define HAVE_BROTLI  1
 
 /* Define to 1 if you have the <brotli/decode.h> header file. */
-#define HAVE_BROTLI_DECODE_H "brotli/c/include/brotli/decode.h"
+#define HAVE_BROTLI_DECODE_H 1
 
 /* Define to 1 if you have the __builtin_available function. */
 /* #undef HAVE_BUILTIN_AVAILABLE */
