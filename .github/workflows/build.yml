@@ -74,10 +74,24 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      - name: Publish to Maven Central
+      - name: Publish to GitHub Packages
         if: github.event_name == 'release'
         run: |
-          ./gradlew :c:publishReleasePublicationToSonatypeRepository \
+          ./gradlew :c:publishMavenJavaPublicationToGitHubPackagesRepository \
+            -PenableLTO=${{ github.event.release.prerelease }} \
+            -Psigning.gnupg.keyName=${{ secrets.GPG_KEY_ID }} \
+            -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }} \
+            --stacktrace --info
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Publish to Maven Central (as backup)
+        if: github.event_name == 'release'
+        run: |
+          ./gradlew :c:publishMavenJavaPublicationToOssrhRepository \
             -PenableLTO=${{ github.event.release.prerelease }} \
             -Psigning.gnupg.keyName=${{ secrets.GPG_KEY_ID }} \
             -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }} \
