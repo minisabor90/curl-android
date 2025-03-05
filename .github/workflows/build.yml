@@ -68,7 +68,9 @@ jobs:
       - name: Import GPG Key (for Publishing)
         if: github.event_name == 'release'
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 --decode | gpg --batch --import
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 --decode > decoded.key
+          gpg --batch --import decoded.key
+          gpg --list-secret-keys  # Debug: Verify the key is imported
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
@@ -76,7 +78,10 @@ jobs:
         if: github.event_name == 'release'
         run: |
           ./gradlew :c:publishReleasePublicationToSonatypeRepository \
-            -PenableLTO=${{ github.event.release.prerelease }}
+            -PenableLTO=${{ github.event.release.prerelease }} \
+            -Psigning.gnupg.keyName=${{ secrets.GPG_KEY_ID }} \
+            -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }} \
+            --stacktrace --info
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
