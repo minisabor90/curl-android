@@ -38,7 +38,7 @@ jobs:
           echo 'org.gradle.parallel=true' >> gradle.properties
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
       
-       - name: Setup Brotli
+      - name: Setup Brotli
         shell: bash
         run: |
           # Check if Brotli is available as a submodule
@@ -55,7 +55,7 @@ jobs:
             echo "Warning: Android.mk might not include Brotli paths correctly"
             echo "Please review Android.mk and ensure it includes LOCAL_C_INCLUDES for Brotli"
           fi
-          
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build with Gradle
