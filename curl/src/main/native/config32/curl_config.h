@@ -191,7 +191,7 @@
 #define HAVE_BOOL_T 1
 
 /* if BROTLI is in use */
-/* #undef HAVE_BROTLI */
+#define HAVE_BROTLI 1
 
 /* Define to 1 if you have the <brotli/decode.h> header file. */
 /* #undef HAVE_BROTLI_DECODE_H */
@@ -388,7 +388,7 @@
 /* #undef HAVE_LDAP_URL_PARSE */
 
 /* Define to 1 if you have the `brotlidec' library (-lbrotlidec). */
-/* #undef HAVE_LIBBROTLIDEC */
+#define HAVE_LIBBROTLIDEC 1
 
 /* Define to 1 if you have the <libgen.h> header file. */
 #define HAVE_LIBGEN_H 1
@@ -418,7 +418,7 @@
 #define HAVE_LIBZ 1
 
 /* Define to 1 if you have the `zstd' library (-lzstd). */
-/* #undef HAVE_LIBZSTD */
+#define HAVE_LIBZSTD 1
 
 /* Define to 1 if you have the <linux/tcp.h> header file. */
 #define HAVE_LINUX_TCP_H 1
@@ -742,7 +742,7 @@
 /* #undef HAVE_WRITABLE_ARGV */
 
 /* if libzstd is in use */
-/* #undef HAVE_ZSTD */
+#define HAVE_ZSTD 1
 
 /* Define to 1 if you have the <zstd.h> header file. */
 /* #undef HAVE_ZSTD_H */
