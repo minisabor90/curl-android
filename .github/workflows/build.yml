@@ -28,9 +28,17 @@ jobs:
           cp curl/src/main/native/config/versions/nghttp3ver.h curl/src/main/native/nghttp3/lib/includes/nghttp3/version.h
           cp curl/src/main/native/config/versions/ngtcp2ver.h curl/src/main/native/ngtcp2/lib/includes/ngtcp2/version.h
           echo "#include \"tool_hugehelp.h\"" > curl/src/main/native/curl/src/tool_hugehelp.c
+      - name: Configuration Environment
+        shell: bash
+        run: |
+          echo 'android.sdk.channel=3' >> gradle.properties
+          echo 'android.native.buildOutput=verbose' >> gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' >> gradle.properties
+          echo 'org.gradle.caching=true' >> gradle.properties
+          echo 'org.gradle.parallel=true' >> gradle.properties
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
       
-      # Add this step to ensure Brotli is properly set up
-      - name: Setup Brotli
+       - name: Setup Brotli
         shell: bash
         run: |
           # Check if Brotli is available as a submodule
@@ -48,15 +56,6 @@ jobs:
             echo "Please review Android.mk and ensure it includes LOCAL_C_INCLUDES for Brotli"
           fi
           
-      - name: Configuration Environment
-        shell: bash
-        run: |
-          echo 'android.sdk.channel=3' >> gradle.properties
-          echo 'android.native.buildOutput=verbose' >> gradle.properties
-          echo 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' >> gradle.properties
-          echo 'org.gradle.caching=true' >> gradle.properties
-          echo 'org.gradle.parallel=true' >> gradle.properties
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build with Gradle
@@ -79,3 +78,5 @@ jobs:
           path: ~/.m2
           compression-level: 9
           include-hidden-files: true
+
+is it okey ?
