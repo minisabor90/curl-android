@@ -56,7 +56,7 @@ android {
             headers = "src/main/native/nghttp3/lib/includes"
         }
           zstd_static {
-            headers = "src/main/native/nghttp3/zstd/lib"
+            headers = "src/main/native/zstd/lib"
         }
         
             brotli_static {
