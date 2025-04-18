@@ -956,3 +956,5 @@
 
 /* the signed version of size_t */
 /* #undef ssize_t */
+
+#define CURL_MAX_WRITE_SIZE 65536
