@@ -58,9 +58,21 @@ jobs:
       - name: Patch CURL_MAX_WRITE_SIZE
         shell: bash
         run: |
-          sed -i 's/#define CURL_MAX_WRITE_SIZE .*/#ifndef CURL_MAX_WRITE_SIZE\
-#define CURL_MAX_WRITE_SIZE 65536\
-#endif/' curl/src/main/native/curl/include/curl/curl.h
+          awk '
+            /#define CURL_MAX_WRITE_SIZE/ {
+              print "#ifndef CURL_MAX_WRITE_SIZE"
+              print "#define CURL_MAX_WRITE_SIZE 65536"
+              print "#endif"
+              next
+            }
+            { print }
+          ' curl/src/main/native/curl/include/curl/curl.h > tmpfile && mv tmpfile curl/src/main/native/curl/include/curl/curl.h
+
+
+      - name: Verify CURL_MAX_WRITE_SIZE Patch
+        shell: bash
+        run: grep -A2 CURL_MAX_WRITE_SIZE curl/src/main/native/curl/include/curl/curl.h
+
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
