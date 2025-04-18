@@ -58,15 +58,7 @@ jobs:
       - name: Patch CURL_MAX_WRITE_SIZE
         shell: bash
         run: |
-          awk '
-            /#define CURL_MAX_WRITE_SIZE/ {
-              print "#ifndef CURL_MAX_WRITE_SIZE"
-              print "#define CURL_MAX_WRITE_SIZE 65536"
-              print "#endif"
-              next
-            }
-            { print }
-          ' curl/src/main/native/curl/include/curl/curl.h > tmpfile && mv tmpfile curl/src/main/native/curl/include/curl/curl.h
+          sed -i 's/^#define CURL_MAX_WRITE_SIZE .*/#define CURL_MAX_WRITE_SIZE 65536/' curl/src/main/native/curl/include/curl/curl.h
 
 
       - name: Verify CURL_MAX_WRITE_SIZE Patch
