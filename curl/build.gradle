@@ -62,6 +62,10 @@ android {
             brotli_static {
             headers = "src/main/native/brotli/c/include"
         }
+        
+            libuv_static {
+            headers = "src/main/native/uv/include"
+        }
     }
 
     publishing {

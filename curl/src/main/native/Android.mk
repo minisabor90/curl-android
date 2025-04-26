@@ -44,7 +44,7 @@ endif
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/curl/include
 LOCAL_EXPORT_LDLIBS     := -lz
 LOCAL_CFLAGS            := -DHAVE_CONFIG_H -DBUILDING_LIBCURL $(OPTIMIZATION_FLAGS)
-LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zstd_static
+LOCAL_STATIC_LIBRARIES  := ssl_static nghttp2_static nghttp3_static ngtcp2_static brotli_static zstd_static libuv_static
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -113,6 +113,17 @@ LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/zstd/lib/legacy/*.c)
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/zstd/lib
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/zstd/lib
 LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_ -DZSTD_DISABLE_ASM  $(OPTIMIZATION_FLAGS)
+include $(BUILD_STATIC_LIBRARY)
+
+
+# Add libuv static library
+include $(CLEAR_VARS)
+LOCAL_MODULE            := libuv_static
+LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/libuv/src/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/libuv/src/unix/*.c)
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/libuv/include
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/libuv/include
+LOCAL_CFLAGS            := $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
 
