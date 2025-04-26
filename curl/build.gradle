@@ -63,7 +63,7 @@ android {
             headers = "src/main/native/brotli/c/include"
         }
         
-            libuv_static {
+            uv_static {
             headers = "src/main/native/uv/include"
         }
     }
