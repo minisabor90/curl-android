@@ -123,9 +123,8 @@ LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/uv/src/*.c)
 LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/uv/src/unix/*.c)
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/uv/include $(LOCAL_PATH)/uv/src
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/uv/include
-LOCAL_CFLAGS            := $(OPTIMIZATION_FLAGS)
+LOCAL_CFLAGS            := $(OPTIMIZATION_FLAGS) -D_ANDROID_ -DANDROID -D__ANDROID__ -D__ANDROID_API__=$(TARGET_PLATFORM_LEVEL) -DHAVE_PTHREAD_BARRIER=0
 include $(BUILD_STATIC_LIBRARY)
-
 
 
 
