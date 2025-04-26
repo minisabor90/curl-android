@@ -16,3 +16,6 @@
 [submodule "curl/src/main/native/zstd"]
 	path = curl/src/main/native/zstd
 	url = https://github.com/facebook/zstd.git
+[submodule "curl/src/main/native/uv"]
+	path = curl/src/main/native/uv
+	url = https://github.com/partic2/libuv-patched.git
