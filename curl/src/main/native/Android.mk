@@ -29,7 +29,7 @@ include $(CLEAR_VARS)
 include $(LOCAL_PATH)/curl/lib/Makefile.inc
 LOCAL_MODULE            := curl_static
 LOCAL_SRC_FILES         := $(addprefix curl/lib/,$(CSOURCES))
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/curl/include $(LOCAL_PATH)/curl/lib  $(LOCAL_PATH)/brotli/c/include
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/curl/include $(LOCAL_PATH)/curl/lib  $(LOCAL_PATH)/brotli/c/include $(LOCAL_PATH)/uv/include
 ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
     LOCAL_C_INCLUDES    += $(LOCAL_PATH)/config32
 else ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
