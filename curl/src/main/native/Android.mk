@@ -119,10 +119,10 @@ include $(BUILD_STATIC_LIBRARY)
 # Add libuv static library
 include $(CLEAR_VARS)
 LOCAL_MODULE            := libuv_static
-LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/libuv/src/*.c)
-LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/libuv/src/unix/*.c)
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/libuv/include
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/libuv/include
+LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/uv/src/*.c)
+LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/uv/src/unix/*.c)
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/uv/include
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/uv/include
 LOCAL_CFLAGS            := $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
 
