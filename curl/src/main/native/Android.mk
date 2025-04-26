@@ -121,7 +121,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE            := libuv_static
 LOCAL_SRC_FILES         := $(wildcard $(LOCAL_PATH)/uv/src/*.c)
 LOCAL_SRC_FILES         += $(wildcard $(LOCAL_PATH)/uv/src/unix/*.c)
-LOCAL_C_INCLUDES        := $(LOCAL_PATH)/uv/include
+LOCAL_C_INCLUDES        := $(LOCAL_PATH)/uv/include $(LOCAL_PATH)/uv/src
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/uv/include
 LOCAL_CFLAGS            := $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
