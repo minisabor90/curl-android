@@ -61,9 +61,9 @@ jobs:
           sed -i 's/^#define CURL_MAX_WRITE_SIZE .*/#define CURL_MAX_WRITE_SIZE 65536/' curl/src/main/native/curl/include/curl/curl.h
 
 
-      - name: Verify CURL_MAX_WRITE_SIZE Patch
-        shell: bash
-        run: grep -A2 CURL_MAX_WRITE_SIZE curl/src/main/native/curl/include/curl/curl.h
+      # - name: Verify CURL_MAX_WRITE_SIZE Patch
+      #   shell: bash
+      #   run: grep -A2 CURL_MAX_WRITE_SIZE curl/src/main/native/curl/include/curl/curl.h
 
 
       - name: Setup Gradle
