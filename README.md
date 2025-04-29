@@ -73,15 +73,23 @@ target_link_libraries(app curl::curl_static)
 
 ## Version
 
+### 8.13.0
+- curl 8.13.0
+- nghttp2 1.65.0
+- nghttp3 1.7.0
+- ngtcp2 1.12.0
+- boringssl 20250114
+- zstd  @f5d4da0
+- brotli @ 440e036
+
+<details>
 ### 8.12.0
 - curl 8.12.0
 - nghttp2 1.64.0
-- nghttp3 1.7.0
+- nghttp3 1.9.0
 - ngtcp2 1.10.0
 - boringssl 20250114
-
-<details>
-
+    
 ### 8.10.0
 - curl 8.10.0
 - nghttp2 1.63.0
