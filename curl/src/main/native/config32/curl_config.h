@@ -716,6 +716,7 @@
 
 /* Define to 1 if you have the <uv.h> header file. */
 /* #undef HAVE_UV_H */
+// #define HAVE_UV_H 1
 
 /* Define to 1 if you have the <wolfssh/ssh.h> header file. */
 /* #undef HAVE_WOLFSSH_SSH_H */
@@ -853,6 +854,7 @@
 
 /* if libuv is in use */
 /* #undef USE_LIBUV */
+// #define USE_LIBUV 1
 
 /* if mbedTLS is enabled */
 /* #undef USE_MBEDTLS */
