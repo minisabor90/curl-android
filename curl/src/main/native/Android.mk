@@ -71,7 +71,8 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 include $(LOCAL_PATH)/ngtcp2/crypto/boringssl/Makefile.am
 LOCAL_MODULE            := ngtcp2_crypto_static
-LOCAL_SRC_FILES         += $(addprefix ngtcp2/crypto/boringssl/,$(libngtcp2_crypto_boringssl_a_SOURCES))
+# Filter out header files from the source list
+LOCAL_SRC_FILES         := $(filter %.c,$(addprefix ngtcp2/crypto/boringssl/,$(libngtcp2_crypto_boringssl_a_SOURCES)))
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/ngtcp2/lib $(LOCAL_PATH)/ngtcp2/lib/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/ngtcp2/crypto $(LOCAL_PATH)/ngtcp2/crypto/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
@@ -88,8 +89,14 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)/nghttp3/lib/includes
 LOCAL_C_INCLUDES        += $(LOCAL_PATH)/config
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/nghttp3/lib/includes
 LOCAL_CFLAGS            := -DHAVE_CONFIG_H $(OPTIMIZATION_FLAGS)
+# Add flag to disable the specific warning for tautological comparisons on 32-bit platforms
+ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+    LOCAL_CFLAGS        += -Wno-tautological-constant-out-of-range-compare
+endif
+ifeq ($(TARGET_ARCH_ABI),x86)
+    LOCAL_CFLAGS        += -Wno-tautological-constant-out-of-range-compare
+endif
 include $(BUILD_STATIC_LIBRARY)
-
 
 include $(CLEAR_VARS)
 LOCAL_MODULE            := brotli_static
@@ -100,7 +107,6 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)/brotli/c/include
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/brotli/c/include
 LOCAL_CFLAGS            := -DBROTLI_BUILD_PORTABLE  $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
-
 
 # Zstandard module definition - simplified with wildcards
 include $(CLEAR_VARS)
@@ -114,8 +120,5 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)/zstd/lib
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/zstd/lib
 LOCAL_CFLAGS            := -DXXH_NAMESPACE=ZSTD_ -DZSTD_DISABLE_ASM  $(OPTIMIZATION_FLAGS)
 include $(BUILD_STATIC_LIBRARY)
-
-
-
 
 $(call import-module,prefab/boringssl)
